@@ -8,8 +8,14 @@ public class DoubleLinkedList {
 	Data2 tail = null;
 	
 	public void add( Data2 data ) {
-		if( head == null ) {
+		if( head == null && tail == null ) {
 			head = data;
+			tail = data;
+		}
+		else if( head == null ) {
+			head = data;
+		}
+		else if( tail == null ) {
 			tail = data;
 		}
 		else {
@@ -20,12 +26,18 @@ public class DoubleLinkedList {
 	}
 	
 	public void add( int key, String data ) {
-		if( head == null ) {
-			head = new Data2(key, data);
+		Data2 d = new Data2(key, data);
+		if( head == null && tail == null ) {
+			head = d;
 			tail = head;
 		}
+		else if( head == null ) {
+			head = d;
+		}
+		else if( tail == null ) {
+			tail = d;
+		}
 		else {
-			Data2 d = new Data2(key, data);
 			d.next = head;
 			head.prev = d;
 			head = d;
@@ -60,12 +72,16 @@ public class DoubleLinkedList {
 			if( p.key == data.key ) {
 				if( prev == null ) {
 					head = p.next;
-					p.next.prev = null;
+					if( p.next != null )
+						p.next.prev = null;
+					if( p == tail )
+						tail = null;
 					return p;
 				}
 				else {
 					prev.next = p.next;
-					p.next.prev = p.prev;
+					if( p.next != null )
+						p.next.prev = p.prev;
 					if( p == tail )
 						tail = p.prev;
 					return p;
@@ -85,7 +101,10 @@ public class DoubleLinkedList {
 			if( p.key == key ) {
 				if( prev == null ) {
 					head = p.next;
-					p.next.prev = null;
+					if( p.next != null )
+						p.next.prev = null;
+					if( p == tail )
+						tail = null;
 					return p;
 				}
 				else {
